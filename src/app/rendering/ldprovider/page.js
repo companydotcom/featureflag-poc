@@ -30,6 +30,17 @@ export default async function page() {
     false
   );
 
+  const i2iValue = await LDSDK.getVariation(
+    "image-to-image",
+    {
+      kind: "market",
+      key: "phoenix",
+      name: "Phoenix",
+      user: "Jacob Granberry",
+    },
+    false
+  );
+
   const defaultLogoProps = {
     defaultSrc: "/next.svg",
     srcTrue: "/launchdarkly.svg",
@@ -41,13 +52,18 @@ export default async function page() {
         App Router: Server Rendering + Client hydration
       </h1>
       <h2 className={styles.center}>LDProvider example</h2>
+      <h2 className={styles.center}>
+        {i2iValue === "Control"
+          ? "Default headline"
+          : "New headline that targets Phoenix users only"}
+      </h2>
       <main className={styles.main}>
         <div className={styles.grid}>
           <LDProvider {...clientContext}>
             <Suspense fallback={<Loading />}>
               <div className={styles.card}>
                 <LogoClientComponent
-                  flagKey='simpleToggle'
+                  flagKey='imageToImage'
                   {...defaultLogoProps}
                 />
 
@@ -59,8 +75,8 @@ export default async function page() {
             <Suspense fallback={<Loading />}>
               <div className={styles.card}>
                 <LogoHybridComponent
-                  defaultValue={bootstrapValue}
-                  flagKey='simpleToggle'
+                  defaultValue={i2iValue}
+                  flagKey='imageToImage'
                   {...defaultLogoProps}
                 />
 
@@ -73,7 +89,7 @@ export default async function page() {
           </LDProvider>
           <div className={styles.card}>
             <LogoServerComponent
-              flagKey='simple-toggle'
+              flagKey='image-to-image'
               {...defaultLogoProps}
             />
             <div className={styles.description}>
