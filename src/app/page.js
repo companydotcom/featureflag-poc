@@ -17,7 +17,7 @@ export default async function Home({ searchParams }) {
       name: "Phoenix",
       user: "Jacob Granberry",
     },
-    false
+    "Control"
   );
   return (
     <main className={styles.main}>
